@@ -1,0 +1,9 @@
+/* ══════════════════════════════════════
+   style.css — Apple Store VN
+   ══════════════════════════════════════ */
+
+/* Variables, reset, and shared styles are
+   handled inline in each HTML file for this project.
+   This file is kept for compatibility. */
+
+   * { box-sizing: border-box; margin: 0; padding: 0; }
