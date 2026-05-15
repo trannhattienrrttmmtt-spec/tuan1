@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apple Store VN — iPhone Chính Hãng</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;600;700&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    :root {
+      --primary:   #0a0a0a;
+      --accent:    #0071e3;
+      --accent2:   #bf4800;
+      --surface:   #ffffff;
+      --muted:     #f5f5f7;
+      --text:      #1d1d1f;
+      --text-soft: #6e6e73;
+      --radius:    18px;
+      --shadow:    0 4px 32px rgba(0,0,0,.08);
+    }
+
+    body { background: var(--muted); font-family: 'Jost', sans-serif; color: var(--text); }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; width: 100%; object-fit: cover; }
+
+    /* ── Header ── */
+    .site-header {
+      background: rgba(10,10,10,.92);
+      backdrop-filter: blur(20px);
+      color: #fff;
+      padding: 48px 0 36px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .site-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 120%, #0071e360 0%, transparent 70%);
+    }
+    .site-header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 300;
+      letter-spacing: .04em;
+      position: relative;
+    }
+    .site-header h1 span { color: #0071e3; }
+    .site-header p { font-size: .85rem; opacity: .45; margin-top: 6px; letter-spacing: .1em; text-transform: uppercase; position: relative; }
+
+    /* ── Nav ── */
+    .site-nav { background: rgba(10,10,10,.95); padding: 0 1rem; }
+    .site-nav .navbar-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; color: #fff !important; letter-spacing: .05em; }
+    .site-nav .nav-link { color: rgba(255,255,255,.6) !important; font-size: .85rem; padding: .75rem 1.2rem !important; transition: color .2s; letter-spacing: .04em; }
+    .site-nav .nav-link:hover, .site-nav .nav-link.active { color: #fff !important; }
+
+    /* ── Layout ── */
+    .main-layout {
+      display: grid;
+      grid-template-columns: 1fr 240px;
+      gap: 28px;
+      max-width: 1280px;
+      margin: 40px auto;
+      padding: 0 24px;
+    }
+    @media (max-width: 900px) { .main-layout { grid-template-columns: 1fr; } }
+
+    /* ── Section title ── */
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-weight: 400;
+      margin-bottom: 28px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #e0e0e5;
+      letter-spacing: .02em;
+    }
+
+    /* ── Product Grid ── */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    /* ── Product Card ── */
+    .product-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform .3s ease, box-shadow .3s ease;
+      border: 1px solid rgba(0,0,0,.04);
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 48px rgba(0,0,0,.14);
+    }
+    .product-card__image {
+      height: 240px;
+      overflow: hidden;
+      position: relative;
+      background: #f9f9fb;
+    }
+    .product-card__image img {
+      height: 100%;
+      object-fit: contain;
+      padding: 20px;
+      transition: transform .5s ease;
+    }
+    .product-card:hover .product-card__image img { transform: scale(1.05); }
+    .product-card__badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--accent);
+      color: #fff;
+      font-size: .65rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .badge-new { background: #34c759; }
+    .badge-hot { background: var(--accent2); }
+    .badge-sale { background: var(--accent); }
+
+    .product-card__body {
+      padding: 18px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      border-top: 1px solid #f0f0f2;
+    }
+    .product-card__category {
+      font-size: .68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--text-soft);
+    }
+    .product-card__title { font-size: 1rem; font-weight: 600; line-height: 1.3; color: var(--text); }
+    .product-card__desc { font-size: .78rem; color: var(--text-soft); flex: 1; line-height: 1.5; }
+    .product-card__price-row { display: flex; align-items: baseline; gap: 8px; margin-top: 4px; }
+    .product-card__price { font-weight: 700; color: var(--text); font-size: 1.05rem; }
+    .product-card__price-old { font-size: .78rem; color: #bbb; text-decoration: line-through; }
+    .btn-buy {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 980px;
+      padding: 9px 18px;
+      font-size: .8rem;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background .2s, transform .15s;
+      text-align: center;
+      border: none;
+      margin-top: 10px;
+      letter-spacing: .02em;
+    }
+    .btn-buy:hover { background: #0077ed; color: #fff; transform: scale(1.02); }
+
+    /* ── Sidebar ── */
+    .sidebar { display: flex; flex-direction: column; gap: 20px; }
+    .sidebar-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      border: 1px solid rgba(0,0,0,.04);
+    }
+    .sidebar-card h5 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ebebed;
+      letter-spacing: .02em;
+    }
+    .sidebar-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .sidebar-list li a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .83rem;
+      color: var(--text-soft);
+      transition: color .2s;
+    }
+    .sidebar-list li a::before {
+      content: '';
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+    .sidebar-list li a:hover { color: var(--accent); }
+
+    /* ── Footer ── */
+    .site-footer { background: var(--primary); color: rgba(255,255,255,.7); padding: 48px 20px 24px; margin-top: 60px; }
+    .footer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1280px; margin: 0 auto 24px; }
+    @media (max-width: 600px) { .footer-grid { grid-template-columns: 1fr; text-align: center; } }
+    .footer-grid h5 { font-family: 'Cormorant Garamond', serif; color: #fff; margin-bottom: 8px; font-size: 1.05rem; font-weight: 400; letter-spacing: .04em; }
+    .footer-grid p { font-size: .8rem; line-height: 1.7; opacity: .55; }
+    .footer-bottom { text-align: center; font-size: .72rem; opacity: .35; border-top: 1px solid rgba(255,255,255,.08); padding-top: 16px; max-width: 1280px; margin: 0 auto; }
+
+    /* ── Color variants display ── */
+    .color-dots { display: flex; gap: 5px; margin-top: 6px; }
+    .color-dot { width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid rgba(0,0,0,.12); }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <h1><span>Apple</span> Store Việt Nam</h1>
+    <p>iPhone chính hãng — giao hàng tận nơi toàn quốc</p>
+  </header>
+
+  <nav class="site-nav navbar navbar-expand-lg">
+    <div class="container-xl">
+      <a class="navbar-brand" href="index.html">&#63743; Store</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="index.html">iPhone</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Phụ kiện</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Liên Hệ</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-layout">
+    <section>
+      <h2 class="section-title">Bộ sưu tập iPhone</h2>
+      <div class="product-grid" id="product-grid"></div>
+    </section>
+
+    <aside class="sidebar">
+      <div class="sidebar-card">
+        <h5>Mạng xã hội</h5>
+        <ul class="sidebar-list">
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">LinkedIn</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-card">
+        <h5>Danh mục</h5>
+        <ul class="sidebar-list" id="sidebar-categories"></ul>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <h5>Giới thiệu</h5>
+        <p>Chúng tôi là đại lý ủy quyền Apple tại Việt Nam, cung cấp sản phẩm chính hãng với giá tốt nhất.</p>
+      </div>
+      <div>
+        <h5>Dịch vụ</h5>
+        <p>Giao hàng nhanh trong 2h, đổi trả 30 ngày, bảo hành chính hãng 12 tháng.</p>
+      </div>
+      <div>
+        <h5>Liên hệ</h5>
+        <p>Email: info@applestore.vn<br />Hotline: 1800 1234</p>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Apple Store VN. All rights reserved.</div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const products = {
+      sp1: {
+        id: 'sp1',
+        name: 'iPhone 17 Pro',
+        category: 'iPhone 17 Series',
+        badge: 'Mới nhất',
+        badgeClass: 'badge-new',
+        price: '33.990.000 ₫',
+        priceOld: '36.990.000 ₫',
+        image: 'iPhone-17-Pro-bac-1-600x600.png',
+        rating: 4.9,
+        reviews: 312,
+        colors: ['#e8e3d6', '#0a0a0a', '#3d5c45', '#4a4848'],
+        desc: 'Chip A19 Pro mạnh nhất từ trước đến nay. Camera 48MP thế hệ mới, màn hình ProMotion 120Hz siêu mượt.',
+      },
+      sp2: {
+        id: 'sp2',
+        name: 'iPhone 17 Pro Max',
+        category: 'iPhone 17 Series',
+        badge: 'Hot',
+        badgeClass: 'badge-hot',
+        price: '39.990.000 ₫',
+        priceOld: '42.990.000 ₫',
+        image: '2_result_42e134ba7ed448198a020e3016f4dee7_master.png',
+        rating: 4.9,
+        reviews: 489,
+        colors: ['#f4a460', '#0a0a0a', '#e8e3d6', '#4a4848'],
+        desc: 'Màn hình 6.9 inch lớn nhất, pin 5000mAh, camera zoom quang 5x. Đỉnh cao công nghệ di động 2026.',
+      },
+      sp3: {
+        id: 'sp3',
+        name: 'iPhone 15 Pro',
+        category: 'iPhone 15 Series',
+        badge: 'Giảm giá',
+        badgeClass: 'badge-sale',
+        price: '24.990.000 ₫',
+        priceOld: '29.990.000 ₫',
+        image: 'images.png',
+        rating: 4.8,
+        reviews: 721,
+        colors: ['#c8b99a', '#0a0a0a', '#4a4848', '#3d5c45'],
+        desc: 'Titan tự nhiên sang trọng, chip A17 Pro, cổng USB-C. Hiệu năng vượt trội trong tầm giá.',
+      },
+      sp4: {
+        id: 'sp4',
+        name: 'iPhone 14 Pro Max',
+        category: 'iPhone 14 Series',
+        badge: 'Bán chạy',
+        badgeClass: 'badge-sale',
+        price: '19.990.000 ₫',
+        priceOld: '24.990.000 ₫',
+        image: '444965480.png',
+        rating: 4.7,
+        reviews: 1024,
+        colors: ['#f7c566', '#5c4f6f', '#0a0a0a', '#c4c4c6'],
+        desc: 'Dynamic Island, màn hình Always-On, camera 48MP. Lựa chọn hoàn hảo với giá tốt.',
+      },
+      sp5: {
+        id: 'sp5',
+        name: 'iPhone 13 Pro Max',
+        category: 'iPhone 13 Series',
+        badge: 'Cũ đẹp',
+        badgeClass: '',
+        price: '14.990.000 ₫',
+        priceOld: '18.990.000 ₫',
+        image: 'iphone-13-pro-cu-dep_1_.png',
+        rating: 4.6,
+        reviews: 856,
+        colors: ['#f7c566', '#0a0a0a', '#c4c4c6', '#2d6a4f'],
+        desc: 'Camera ProRAW, chip A15 Bionic, màn hình Super Retina XDR ProMotion. Máy cũ ngoại hình đẹp 98%.',
+      },
+      sp6: {
+        id: 'sp6',
+        name: 'iPhone 14 Pro',
+        category: 'iPhone 14 Series',
+        badge: 'Giảm giá',
+        badgeClass: 'badge-sale',
+        price: '17.990.000 ₫',
+        priceOld: '22.990.000 ₫',
+        image: 't_m_12_1_3_2.png',
+        rating: 4.7,
+        reviews: 634,
+        colors: ['#5c4f6f', '#0a0a0a', '#f7c566', '#c4c4c6'],
+        desc: 'Dynamic Island tiên phong, camera 48MP, chip A16 Bionic mạnh mẽ. Hiệu năng đỉnh cao.',
+      },
+    };
+
+    const grid = document.getElementById('product-grid');
+    const sidebar = document.getElementById('sidebar-categories');
+
+    Object.values(products).forEach(p => {
+      const dotsHTML = (p.colors || []).map(c =>
+        `<div class="color-dot" style="background:${c}"></div>`
+      ).join('');
+
+      const article = document.createElement('article');
+      article.className = 'product-card';
+      article.innerHTML = `
+        <div class="product-card__image">
+          <img src="images/${p.image}" alt="${p.name}" loading="lazy" />
+          <span class="product-card__badge ${p.badgeClass}">${p.badge}</span>
+        </div>
+        <div class="product-card__body">
+          <span class="product-card__category">${p.category}</span>
+          <h3 class="product-card__title">${p.name}</h3>
+          <p class="product-card__desc">${p.desc}</p>
+          <div class="color-dots">${dotsHTML}</div>
+          <div class="product-card__price-row">
+            <span class="product-card__price">${p.price}</span>
+            <span class="product-card__price-old">${p.priceOld}</span>
+          </div>
+          <a href="product.html?id=${p.id}" class="btn-buy">Xem chi tiết →</a>
+        </div>
+      `;
+      grid.appendChild(article);
+
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="product.html?id=${p.id}">${p.name}</a>`;
+      sidebar.appendChild(li);
+    });
+  </script>
+</body>
+</html>
