@@ -1,0 +1,14 @@
+@model int
+
+@{
+    ViewData["Title"] = "Đặt hàng thành công";
+}
+
+<section class="container page-section">
+    <div class="empty-state success-state">
+        <i class="bi bi-check-circle"></i>
+        <h2>Đặt hàng thành công</h2>
+        <p>Đơn hàng mã <strong>#@Model</strong> đã được ghi nhận. Cảm ơn bạn đã mua hàng tại TIEN STORE.</p>
+        <a class="btn btn-dark" asp-controller="Home" asp-action="Index">Tiếp tục mua hàng</a>
+    </div>
+</section>

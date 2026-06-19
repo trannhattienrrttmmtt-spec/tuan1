@@ -1,0 +1,19 @@
+@model WebsiteBanHang.Models.Category
+
+@{
+    ViewData["Title"] = "Xóa danh mục";
+}
+
+<section class="container page-section">
+    <div class="empty-state">
+        <i class="bi bi-exclamation-triangle text-danger"></i>
+        <h2>Xác nhận xóa danh mục</h2>
+        <p>Bạn có chắc chắn muốn xóa danh mục <strong>@Model.Name</strong> không?</p>
+
+        <form asp-action="DeleteConfirmed" method="post" class="d-flex gap-2 flex-wrap justify-content-center">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger">Xác nhận xóa</button>
+            <a asp-action="Index" class="btn btn-outline-dark">Hủy</a>
+        </form>
+    </div>
+</section>

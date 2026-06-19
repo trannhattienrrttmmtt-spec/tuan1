@@ -1,0 +1,141 @@
+@page
+@model WebsiteBanHang.Areas.Identity.Pages.Account.Manage.IndexModel
+
+@{
+    ViewData["Title"] = "Tài khoản";
+}
+
+<section class="container page-section">
+    <div class="profile-layout">
+        <aside class="profile-sidebar">
+            <i class="bi bi-person-circle"></i>
+            <h2>@(string.IsNullOrWhiteSpace(Model.Input.FullName) ? Model.Username : Model.Input.FullName)</h2>
+            <p>@Model.Input.Email</p>
+
+            <div class="profile-actions">
+                <a class="btn btn-dark w-100" asp-page="./Index">
+                    <i class="bi bi-person-lines-fill"></i> Hồ sơ
+                </a>
+                <a class="btn btn-outline-dark w-100" asp-page="./ChangePassword">
+                    <i class="bi bi-key"></i> Đổi mật khẩu
+                </a>
+            </div>
+        </aside>
+
+        <div class="profile-stack">
+            <div class="profile-card">
+                <span class="eyebrow">Profile</span>
+                <h2>Thông tin tài khoản</h2>
+                <p class="text-muted mb-0">Cập nhật thông tin nhận hàng và liên hệ.</p>
+
+                @if (!string.IsNullOrEmpty(Model.StatusMessage))
+                {
+                    <div class="alert alert-success mt-3">@Model.StatusMessage</div>
+                }
+
+                <form method="post" class="auth-form mt-4">
+                    <div asp-validation-summary="ModelOnly" class="text-danger small"></div>
+
+                    <div class="auth-grid-2">
+                        <div class="form-floating">
+                            <input asp-for="Input.FullName" class="form-control" placeholder="Họ và tên" />
+                            <label asp-for="Input.FullName">Họ và tên</label>
+                        </div>
+
+                        <div class="form-floating">
+                            <input asp-for="Input.Email" class="form-control" disabled placeholder="Email" />
+                            <label asp-for="Input.Email">Email</label>
+                        </div>
+                    </div>
+
+                    <div class="auth-grid-2">
+                        <div class="form-floating">
+                            <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Số điện thoại" />
+                            <label asp-for="Input.PhoneNumber">Số điện thoại</label>
+                            <span asp-validation-for="Input.PhoneNumber" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-floating">
+                            <input asp-for="Input.Address" class="form-control" placeholder="Địa chỉ" />
+                            <label asp-for="Input.Address">Địa chỉ</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-dark">
+                        <i class="bi bi-save"></i> Lưu thay đổi
+                    </button>
+                </form>
+            </div>
+
+            <div class="profile-card">
+                <div class="section-heading mb-3">
+                    <div>
+                        <span class="eyebrow">Orders</span>
+                        <h2>Lịch sử đơn hàng</h2>
+                    </div>
+                </div>
+
+                @if (!Model.Orders.Any())
+                {
+                    <div class="mini-empty">
+                        <i class="bi bi-receipt"></i>
+                        <p>Bạn chưa có đơn hàng nào.</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="order-history">
+                        @foreach (var order in Model.Orders)
+                        {
+                            <details class="order-item">
+                                <summary>
+                                    <span>
+                                        <strong>Đơn #@order.Id</strong>
+                                        <small>@order.OrderDate.ToString("dd/MM/yyyy HH:mm")</small>
+                                    </span>
+                                    <span class="order-total">@order.TotalPrice.ToString("#,##0") VNĐ</span>
+                                </summary>
+
+                                <div class="order-meta">
+                                    <div><strong>Địa chỉ:</strong> @order.ShippingAddress</div>
+                                    @if (!string.IsNullOrWhiteSpace(order.Notes))
+                                    {
+                                        <div><strong>Ghi chú:</strong> @order.Notes</div>
+                                    }
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="table align-middle mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Sản phẩm</th>
+                                                <th class="text-center">SL</th>
+                                                <th class="text-end">Giá</th>
+                                                <th class="text-end">Tổng</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var detail in order.OrderDetails)
+                                            {
+                                                <tr>
+                                                    <td>@detail.Product?.Name</td>
+                                                    <td class="text-center">@detail.Quantity</td>
+                                                    <td class="text-end">@detail.Price.ToString("#,##0") VNĐ</td>
+                                                    <td class="text-end fw-bold">@((detail.Price * detail.Quantity).ToString("#,##0")) VNĐ</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </details>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,142 @@
+﻿@model IEnumerable<WebsiteBanHang.Models.Product>
+
+@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+<section class="store-hero">
+    <div class="container">
+        <div class="hero-copy">
+            <span class="eyebrow">Cửa hàng công nghệ chính hãng</span>
+            <h1>TIEN STORE</h1>
+            <p>Khám phá điện thoại, laptop và phụ kiện chất lượng với giá rõ ràng, hỗ trợ nhanh và giao hàng tận nơi.</p>
+            <div class="hero-actions">
+                <a class="btn btn-light btn-lg" href="#products">
+                    <i class="bi bi-grid-3x3-gap"></i> Mua sắm ngay
+                </a>
+                @if (!User.IsInRole("Admin"))
+                {
+                    <a class="btn btn-outline-light btn-lg" asp-controller="ShoppingCart" asp-action="Index">
+                        <i class="bi bi-cart3"></i> Kiểm tra giỏ hàng
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container trust-strip" aria-label="Dịch vụ cửa hàng">
+    <div class="trust-item">
+        <i class="bi bi-truck"></i>
+        <div>
+            <strong>Giao hàng nhanh</strong>
+            <span>Nhận hàng tận nơi, đóng gói cẩn thận.</span>
+        </div>
+    </div>
+    <div class="trust-item">
+        <i class="bi bi-shield-check"></i>
+        <div>
+            <strong>Hàng chính hãng</strong>
+            <span>Sản phẩm rõ nguồn gốc, bảo hành minh bạch.</span>
+        </div>
+    </div>
+    <div class="trust-item">
+        <i class="bi bi-arrow-repeat"></i>
+        <div>
+            <strong>Đổi trả dễ dàng</strong>
+            <span>Hỗ trợ đổi trả nếu sản phẩm phát sinh lỗi.</span>
+        </div>
+    </div>
+    <div class="trust-item">
+        <i class="bi bi-headset"></i>
+        <div>
+            <strong>Tư vấn tận tâm</strong>
+            <span>Luôn sẵn sàng hỗ trợ chọn sản phẩm phù hợp.</span>
+        </div>
+    </div>
+</section>
+
+<section class="container product-section" id="products">
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="section-heading">
+        <div>
+            <span class="eyebrow">Sản phẩm được chọn lọc</span>
+            <h2>Danh mục nổi bật</h2>
+        </div>
+        @if (!User.IsInRole("Admin"))
+        {
+            <a class="btn btn-outline-dark" asp-controller="ShoppingCart" asp-action="Index">
+                <i class="bi bi-cart3"></i> Xem giỏ hàng
+            </a>
+        }
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-state">
+            <i class="bi bi-bag"></i>
+            <h3>Chưa có sản phẩm</h3>
+            <p>Cửa hàng đang cập nhật sản phẩm mới. Vui lòng quay lại sau.</p>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var item in Model)
+            {
+                <div class="col-sm-6 col-lg-4 col-xl-3">
+                    <article class="product-card">
+                        <a asp-controller="Product" asp-action="Display" asp-route-id="@item.Id" class="product-image-link">
+                            @if (!string.IsNullOrEmpty(item.ImageUrl))
+                            {
+                                <img src="@item.ImageUrl" class="product-image" alt="@item.Name">
+                            }
+                            else
+                            {
+                                <div class="product-placeholder">
+                                    <i class="bi bi-image"></i>
+                                </div>
+                            }
+                        </a>
+
+                        <div class="product-body">
+                            <div class="product-category">@item.Category?.Name</div>
+                            <h3 class="product-title">@item.Name</h3>
+                            <p class="product-description">
+                                @(string.IsNullOrWhiteSpace(item.Description)
+                                    ? "Sản phẩm được kiểm tra kỹ trước khi giao đến khách hàng."
+                                    : item.Description.Length > 78 ? item.Description.Substring(0, 78) + "..." : item.Description)
+                            </p>
+                            <div class="product-footer">
+                                <strong>@item.Price.ToString("#,##0") VNĐ</strong>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <a asp-area="Admin" asp-controller="Product" asp-action="Update" asp-route-id="@item.Id" class="btn btn-outline-dark btn-sm">
+                                        <i class="bi bi-pencil-square"></i> Sửa
+                                    </a>
+                                }
+                                else
+                                {
+                                    <form asp-controller="ShoppingCart" asp-action="AddToCart" method="post">
+                                        <input type="hidden" name="productId" value="@item.Id" />
+                                        <input type="hidden" name="quantity" value="1" />
+                                        <button class="btn btn-dark btn-sm" type="submit">
+                                            <i class="bi bi-cart-plus"></i> Thêm
+                                        </button>
+                                    </form>
+                                }
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            }
+        </div>
+    }
+</section>

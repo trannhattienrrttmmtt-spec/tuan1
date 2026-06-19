@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TIEN STORE</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top">
+        <div class="container">
+            <a class="navbar-brand brand-mark" asp-area="" asp-controller="Home" asp-action="Index">
+                <i class="bi bi-bag-heart-fill"></i>
+                TIEN STORE
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav me-auto ms-lg-4 gap-lg-2">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                            <i class="bi bi-house-door"></i> Trang chủ
+                        </a>
+                    </li>
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Admin" asp-controller="Product" asp-action="Index">
+                                <i class="bi bi-box-seam"></i> Quản lý sản phẩm
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Categories" asp-action="Index">
+                                <i class="bi bi-tags"></i> Danh mục
+                            </a>
+                        </li>
+                    }
+                </ul>
+
+                <div class="d-flex align-items-lg-center gap-2 flex-column flex-lg-row">
+                    @if (!User.IsInRole("Admin"))
+                    {
+                        <a class="btn btn-outline-dark cart-button" asp-area="" asp-controller="ShoppingCart" asp-action="Index">
+                            <i class="bi bi-cart3"></i>
+                            Giỏ hàng
+                        </a>
+                    }
+                    <ul class="navbar-nav">
+                        <partial name="_LoginPartial" />
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <h5>TIEN STORE</h5>
+                <p class="mb-0">Cửa hàng công nghệ chuyên điện thoại, laptop và phụ kiện chính hãng.</p>
+            </div>
+            <div>
+                <h6>Hỗ trợ</h6>
+                <a href="tel:0900000000">0900 000 000</a>
+                <a href="mailto:support@tienstore.vn">support@tienstore.vn</a>
+            </div>
+            <div>
+                <h6>Chính sách</h6>
+                <a href="#">Bảo hành</a>
+                <a href="#">Đổi trả</a>
+                <a href="#">Giao hàng</a>
+            </div>
+            <div>
+                <h6>Kết nối</h6>
+                <div class="footer-links">
+                    <a href="#">Facebook</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

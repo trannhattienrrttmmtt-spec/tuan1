@@ -1,0 +1,75 @@
+@model WebsiteBanHang.Models.Product
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewData["Title"] = "Cập nhật sản phẩm";
+}
+
+<section class="container page-section">
+    <div class="page-card">
+        <span class="eyebrow">Product</span>
+        <h2>Cập nhật sản phẩm</h2>
+
+        <form asp-action="Update" method="post" enctype="multipart/form-data" class="mt-4">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="row g-4">
+                <div class="col-lg-7">
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label">Tên sản phẩm</label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Price" class="form-label">Giá</label>
+                        <input asp-for="Price" class="form-control" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label">Mô tả</label>
+                        <textarea asp-for="Description" rows="4" class="form-control"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="CategoryId" class="form-label">Danh mục</label>
+                        <select asp-for="CategoryId" asp-items="@ViewBag.Categories" class="form-select">
+                            <option value="">-- Chọn danh mục --</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Hình ảnh mới</label>
+                        <input type="file" asp-for="ImageUrl" class="form-control" id="imageInput" accept="image/*" />
+                    </div>
+
+                    <button type="submit" class="btn btn-dark">
+                        <i class="bi bi-save"></i> Lưu thay đổi
+                    </button>
+                    <a asp-action="Index" class="btn btn-outline-dark">Quay lại</a>
+                </div>
+
+                <div class="col-lg-5 text-center">
+                    <img id="previewImage" src="@Model.ImageUrl" class="preview-image" alt="@Model.Name" />
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.getElementById('imageInput').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('previewImage').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    </script>
+}

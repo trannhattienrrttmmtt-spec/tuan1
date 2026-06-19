@@ -1,0 +1,58 @@
+﻿@model WebsiteBanHang.Models.Product
+
+@{
+    ViewData["Title"] = "Chi tiết sản phẩm";
+}
+
+<section class="container page-section">
+    <div class="product-detail">
+        <div class="detail-media">
+            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                <img src="@Model.ImageUrl" alt="@Model.Name" />
+            }
+            else
+            {
+                <div class="product-placeholder detail-placeholder">
+                    <i class="bi bi-image"></i>
+                </div>
+            }
+        </div>
+
+        <div class="detail-info">
+            <span class="eyebrow">@Model.Category?.Name</span>
+            <h1>@Model.Name</h1>
+            <div class="detail-price">@Model.Price.ToString("#,##0") VNĐ</div>
+            <p>@(string.IsNullOrWhiteSpace(Model.Description) ? "Sản phẩm được kiểm tra kỹ trước khi giao đến khách hàng." : Model.Description)</p>
+
+            <div class="detail-benefits">
+                <span><i class="bi bi-shield-check"></i> Bảo hành rõ ràng</span>
+                <span><i class="bi bi-truck"></i> Giao hàng tận nơi</span>
+                <span><i class="bi bi-arrow-repeat"></i> Hỗ trợ đổi trả</span>
+            </div>
+
+            <div class="d-flex gap-2 flex-wrap mt-4">
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-outline-dark">
+                        <i class="bi bi-pencil-square"></i> Chỉnh sửa
+                    </a>
+                }
+                else
+                {
+                    <form asp-controller="ShoppingCart" asp-action="AddToCart" method="post">
+                        <input type="hidden" name="productId" value="@Model.Id" />
+                        <input type="hidden" name="quantity" value="1" />
+                        <button class="btn btn-dark" type="submit">
+                            <i class="bi bi-cart-plus"></i> Thêm vào giỏ
+                        </button>
+                    </form>
+                }
+
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Quay lại
+                </a>
+            </div>
+        </div>
+    </div>
+</section>

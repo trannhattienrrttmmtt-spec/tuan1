@@ -1,0 +1,27 @@
+@model WebsiteBanHang.Models.Product
+
+@{
+    ViewData["Title"] = "Xóa sản phẩm";
+}
+
+<section class="container page-section">
+    <div class="empty-state">
+        <i class="bi bi-exclamation-triangle text-danger"></i>
+        <h2>Xác nhận xóa sản phẩm</h2>
+
+        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+        {
+            <img src="@Model.ImageUrl" class="preview-image my-3" alt="@Model.Name" />
+        }
+
+        <p>Bạn có chắc chắn muốn xóa <strong>@Model.Name</strong> không?</p>
+
+        <form asp-action="DeleteConfirmed" method="post" class="d-flex gap-2 flex-wrap justify-content-center">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger">
+                <i class="bi bi-trash"></i> Xác nhận xóa
+            </button>
+            <a asp-action="Index" class="btn btn-outline-dark">Hủy</a>
+        </form>
+    </div>
+</section>

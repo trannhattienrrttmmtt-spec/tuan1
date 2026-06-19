@@ -1,0 +1,58 @@
+@page
+@model WebsiteBanHang.Areas.Identity.Pages.Account.LoginModel
+
+@{
+    ViewData["Title"] = "Đăng nhập";
+}
+
+<section class="auth-shell">
+    <div class="auth-visual">
+        <div>
+            <span class="eyebrow">TIEN STORE</span>
+            <h1>Chào mừng bạn quay lại</h1>
+            <p>Đăng nhập để quản lý giỏ hàng, đặt hàng và theo dõi các thao tác mua sắm của bạn.</p>
+        </div>
+    </div>
+
+    <div class="auth-panel">
+        <div class="auth-card">
+            <span class="eyebrow">Account</span>
+            <h2>Đăng nhập</h2>
+            <p class="auth-muted">Sử dụng email và mật khẩu đã đăng ký.</p>
+
+            <form id="account" method="post" class="auth-form">
+                <div asp-validation-summary="ModelOnly" class="text-danger small"></div>
+
+                <div class="form-floating">
+                    <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="name@example.com" />
+                    <label asp-for="Input.Email">Email</label>
+                    <span asp-validation-for="Input.Email" class="text-danger small"></span>
+                </div>
+
+                <div class="form-floating">
+                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" placeholder="Mật khẩu" />
+                    <label asp-for="Input.Password">Mật khẩu</label>
+                    <span asp-validation-for="Input.Password" class="text-danger small"></span>
+                </div>
+
+                <label class="auth-check">
+                    <input asp-for="Input.RememberMe" />
+                    <span>Ghi nhớ đăng nhập</span>
+                </label>
+
+                <button id="login-submit" type="submit" class="btn btn-dark w-100 btn-lg">
+                    <i class="bi bi-box-arrow-in-right"></i> Đăng nhập
+                </button>
+            </form>
+
+            <div class="auth-switch">
+                Chưa có tài khoản?
+                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Đăng ký ngay</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,18 @@
+@model WebsiteBanHang.Models.Product
+@{
+    ViewData["Title"] = "Admin - Xoá sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="text-danger">Xác nhận xoá sản phẩm (Admin)</h2>
+    <hr />
+    <div class="alert alert-warning">
+        Bạn có chắc chắn muốn xoá <strong>@Model.Name</strong>?
+    </div>
+    <form asp-area="Admin" asp-controller="Product" asp-action="DeleteConfirmed" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Xác nhận xoá</button>
+        <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="btn btn-secondary ms-2">Huỷ</a>
+    </form>
+</div>

@@ -1,0 +1,89 @@
+﻿@model WebsiteBanHang.Models.Product
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewData["Title"] = "Admin - Thêm sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var categories = ViewBag.Categories as SelectList;
+    var hasCategories = categories != null && categories.Any();
+}
+
+<section class="container page-section">
+    <div class="page-card">
+        <span class="eyebrow">Admin</span>
+        <h2>Thêm sản phẩm</h2>
+
+        @if (!hasCategories)
+        {
+            <div class="alert alert-warning mt-3">
+                Chưa có danh mục. Bạn cần tạo danh mục trước khi thêm sản phẩm.
+                <a asp-area="" asp-controller="Categories" asp-action="Add" class="alert-link">Thêm danh mục</a>
+            </div>
+        }
+
+        <form asp-area="Admin" asp-controller="Product" asp-action="Add" method="post" enctype="multipart/form-data" class="mt-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="row g-4">
+                <div class="col-lg-7">
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label">Tên sản phẩm</label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Price" class="form-label">Giá</label>
+                        <input asp-for="Price" class="form-control" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label">Mô tả</label>
+                        <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="CategoryId" class="form-label">Danh mục</label>
+                        <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-select">
+                            <option value="">-- Chọn danh mục --</option>
+                        </select>
+                        <span asp-validation-for="CategoryId" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Hình ảnh</label>
+                        <input type="file" name="imageUrl" class="form-control" id="imgInput" accept="image/*" />
+                    </div>
+
+                    <button type="submit" class="btn btn-dark" @(hasCategories ? "" : "disabled")>
+                        <i class="bi bi-plus-circle"></i> Thêm sản phẩm
+                    </button>
+                    <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="btn btn-outline-dark">Quay lại</a>
+                </div>
+
+                <div class="col-lg-5 text-center">
+                    <img id="preview" src="#" class="preview-image" style="display:none;" alt="Ảnh xem trước" />
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.getElementById('imgInput').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = ev => {
+                const img = document.getElementById('preview');
+                img.src = ev.target.result;
+                img.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        });
+    </script>
+}
