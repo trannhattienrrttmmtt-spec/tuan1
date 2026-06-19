@@ -1,11 +1,9 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebsiteBanHang.Models;
 using WebsiteBanHang.Repositories;
 
 namespace WebsiteBanHang.Controllers
 {
-    [Authorize(Roles = SD.Role_Admin)]
     public class CategoriesController : Controller
     {
         private readonly IProductRepository  _productRepository;

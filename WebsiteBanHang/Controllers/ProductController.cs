@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebsiteBanHang.Models;
@@ -19,7 +18,6 @@ namespace WebsiteBanHang.Controllers
         }
 
         // GET: /Product
-        [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> Index()
         {
             var products = await _productRepository.GetAllAsync();
@@ -27,7 +25,6 @@ namespace WebsiteBanHang.Controllers
         }
 
         // GET: /Product/Add
-        [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> Add()
         {
             var categories = await _categoryRepository.GetAllAsync();
@@ -36,7 +33,6 @@ namespace WebsiteBanHang.Controllers
         }
 
         // POST: /Product/Add
-        [Authorize(Roles = SD.Role_Admin)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(Product product, IFormFile? imageUrl)
@@ -64,7 +60,6 @@ namespace WebsiteBanHang.Controllers
         }
 
         // GET: /Product/Update/5
-        [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> Update(int id)
         {
             var product = await _productRepository.GetByIdAsync(id);
@@ -76,7 +71,6 @@ namespace WebsiteBanHang.Controllers
         }
 
         // POST: /Product/Update/5
-        [Authorize(Roles = SD.Role_Admin)]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(int id, Product product, IFormFile? imageUrl)
@@ -113,7 +107,6 @@ namespace WebsiteBanHang.Controllers
         }
 
         // GET: /Product/Delete/5
-        [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> Delete(int id)
         {
             var product = await _productRepository.GetByIdAsync(id);
@@ -122,7 +115,6 @@ namespace WebsiteBanHang.Controllers
         }
 
         // POST: /Product/DeleteConfirmed
-        [Authorize(Roles = SD.Role_Admin)]
         [HttpPost, ActionName("DeleteConfirmed")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

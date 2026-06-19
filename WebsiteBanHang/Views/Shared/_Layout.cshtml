@@ -29,26 +29,17 @@
                         </a>
                     </li>
 
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="Admin" asp-controller="Product" asp-action="Index">
-                                <i class="bi bi-box-seam"></i> Quản lý sản phẩm
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Categories" asp-action="Index">
-                                <i class="bi bi-tags"></i> Danh mục
-                            </a>
-                        </li>
-                    }
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Product" asp-action="Index">
+                            <i class="bi bi-box-seam"></i> Quản lý sản phẩm
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Categories" asp-action="Index">
+                            <i class="bi bi-tags"></i> Danh mục
+                        </a>
+                    </li>
                 </ul>
-
-                <div class="d-flex align-items-lg-center gap-2 flex-column flex-lg-row">
-                    <ul class="navbar-nav">
-                        <partial name="_LoginPartial" />
-                    </ul>
-                </div>
             </div>
         </div>
     </nav>
