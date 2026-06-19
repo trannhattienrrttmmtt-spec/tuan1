@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using WebsiteBanHang.Models;
 
 namespace WebsiteBanHang.Areas.Identity.Pages.Account.Manage
@@ -11,23 +10,18 @@ namespace WebsiteBanHang.Areas.Identity.Pages.Account.Manage
     [Authorize]
     public class IndexModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
         public IndexModel(
-            ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager)
         {
-            _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
         }
 
         public string Username { get; set; } = string.Empty;
-
-        public IReadOnlyList<Order> Orders { get; set; } = Array.Empty<Order>();
 
         [TempData]
         public string? StatusMessage { get; set; }
@@ -92,12 +86,6 @@ namespace WebsiteBanHang.Areas.Identity.Pages.Account.Manage
                 Address = user.Address
             };
 
-            Orders = await _context.Orders
-                .Include(order => order.OrderDetails)
-                .ThenInclude(detail => detail.Product)
-                .Where(order => order.UserId == user.Id)
-                .OrderByDescending(order => order.OrderDate)
-                .ToListAsync();
         }
     }
 }

@@ -38,16 +38,6 @@
                         <i class="bi bi-pencil-square"></i> Chỉnh sửa
                     </a>
                 }
-                else
-                {
-                    <form asp-controller="ShoppingCart" asp-action="AddToCart" method="post">
-                        <input type="hidden" name="productId" value="@Model.Id" />
-                        <input type="hidden" name="quantity" value="1" />
-                        <button class="btn btn-dark" type="submit">
-                            <i class="bi bi-cart-plus"></i> Thêm vào giỏ
-                        </button>
-                    </form>
-                }
 
                 <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">
                     <i class="bi bi-arrow-left"></i> Quay lại

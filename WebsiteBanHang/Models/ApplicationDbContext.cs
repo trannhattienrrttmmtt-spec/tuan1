@@ -14,8 +14,6 @@ namespace WebsiteBanHang.Models
         public DbSet<Product>      Products      { get; set; }
         public DbSet<Category>     Categories    { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
-        public DbSet<Order>        Orders        { get; set; }
-        public DbSet<OrderDetail>  OrderDetails  { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -23,14 +21,6 @@ namespace WebsiteBanHang.Models
 
             builder.Entity<Product>()
                 .Property(product => product.Price)
-                .HasColumnType("decimal(18,2)");
-
-            builder.Entity<Order>()
-                .Property(order => order.TotalPrice)
-                .HasColumnType("decimal(18,2)");
-
-            builder.Entity<OrderDetail>()
-                .Property(detail => detail.Price)
                 .HasColumnType("decimal(18,2)");
         }
     }

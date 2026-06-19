@@ -45,13 +45,6 @@
                 </ul>
 
                 <div class="d-flex align-items-lg-center gap-2 flex-column flex-lg-row">
-                    @if (!User.IsInRole("Admin"))
-                    {
-                        <a class="btn btn-outline-dark cart-button" asp-area="" asp-controller="ShoppingCart" asp-action="Index">
-                            <i class="bi bi-cart3"></i>
-                            Giỏ hàng
-                        </a>
-                    }
                     <ul class="navbar-nav">
                         <partial name="_LoginPartial" />
                     </ul>
@@ -76,10 +69,9 @@
                 <a href="mailto:support@tienstore.vn">support@tienstore.vn</a>
             </div>
             <div>
-                <h6>Chính sách</h6>
-                <a href="#">Bảo hành</a>
-                <a href="#">Đổi trả</a>
-                <a href="#">Giao hàng</a>
+                <h6>Quản lý</h6>
+                <a asp-area="" asp-controller="Home" asp-action="Index">Sản phẩm</a>
+                <a asp-area="" asp-controller="Categories" asp-action="Index">Danh mục</a>
             </div>
             <div>
                 <h6>Kết nối</h6>

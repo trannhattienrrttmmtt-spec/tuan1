@@ -12,14 +12,8 @@
             <p>Khám phá điện thoại, laptop và phụ kiện chất lượng với giá rõ ràng, hỗ trợ nhanh và giao hàng tận nơi.</p>
             <div class="hero-actions">
                 <a class="btn btn-light btn-lg" href="#products">
-                    <i class="bi bi-grid-3x3-gap"></i> Mua sắm ngay
+                    <i class="bi bi-grid-3x3-gap"></i> Xem sản phẩm
                 </a>
-                @if (!User.IsInRole("Admin"))
-                {
-                    <a class="btn btn-outline-light btn-lg" asp-controller="ShoppingCart" asp-action="Index">
-                        <i class="bi bi-cart3"></i> Kiểm tra giỏ hàng
-                    </a>
-                }
             </div>
         </div>
     </div>
@@ -70,12 +64,6 @@
             <span class="eyebrow">Sản phẩm được chọn lọc</span>
             <h2>Danh mục nổi bật</h2>
         </div>
-        @if (!User.IsInRole("Admin"))
-        {
-            <a class="btn btn-outline-dark" asp-controller="ShoppingCart" asp-action="Index">
-                <i class="bi bi-cart3"></i> Xem giỏ hàng
-            </a>
-        }
     </div>
 
     @if (!Model.Any())
@@ -116,22 +104,9 @@
                             </p>
                             <div class="product-footer">
                                 <strong>@item.Price.ToString("#,##0") VNĐ</strong>
-                                @if (User.IsInRole("Admin"))
-                                {
-                                    <a asp-area="Admin" asp-controller="Product" asp-action="Update" asp-route-id="@item.Id" class="btn btn-outline-dark btn-sm">
-                                        <i class="bi bi-pencil-square"></i> Sửa
-                                    </a>
-                                }
-                                else
-                                {
-                                    <form asp-controller="ShoppingCart" asp-action="AddToCart" method="post">
-                                        <input type="hidden" name="productId" value="@item.Id" />
-                                        <input type="hidden" name="quantity" value="1" />
-                                        <button class="btn btn-dark btn-sm" type="submit">
-                                            <i class="bi bi-cart-plus"></i> Thêm
-                                        </button>
-                                    </form>
-                                }
+                                <a asp-controller="Product" asp-action="Display" asp-route-id="@item.Id" class="btn btn-dark btn-sm">
+                                    <i class="bi bi-eye"></i> Chi tiết
+                                </a>
                             </div>
                         </div>
                     </article>
